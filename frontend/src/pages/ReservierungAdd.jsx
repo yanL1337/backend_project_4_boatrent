@@ -1,4 +1,3 @@
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useContext, useEffect, useRef } from "react";
 import { RefreshContext } from "../components/Handler";
@@ -48,34 +47,21 @@ const ReservierungAdd = ({ boote }) => {
   };
 
   useEffect(() => {
-    startSelected ? console.log("dAWD") : null;
     if (startSelected && endSelected) {
-      console.log(startRef.current.value);
       getAviableBoot().then((data) => setAviableBoote(data));
     }
-  }, [startSelected, endSelected]);
+  }, [endSelected]);
 
   return (
-    <div className="flex">
+    <div className="flex w-fit m-auto border rounded-xl p-10">
       <form className="flex flex-col items-center" onSubmit={addResv}>
-        {/* <DatePicker
-          placeholderText="Startdatum"
-          id="Startdatum"
-          name="Startdatum"
-          className="input input-bordered input-primary w-full max-w-xs"
-          onSelect={() => setStartSelected((prev) => !prev)}
-          selected={startDate}
-          //dateFormat={"dd.MM.yyyy"}
-          onChange={(date) => setStartDate(date)}
-        /> */}
-
         <input
           type="date"
-          className="input "
+          className="input border"
           name="Startdatum"
           id="Startdatum"
           ref={startRef}
-          onInput={() => setStartSelected((prev) => !prev)}
+          onChange={() => setStartSelected((prev) => !prev)}
           //onChange={(date) => setStartDate(date)}
         />
 
@@ -87,20 +73,9 @@ const ReservierungAdd = ({ boote }) => {
           name="Enddatum"
           id="Enddatum"
           ref={endRef}
-          onSelect={() => setEndSelected((prev) => !prev)}
+          onChange={() => setEndSelected((prev) => !prev)}
           //onChange={(date) => setStartDate(date)}
         />
-
-        {/* <DatePicker
-          placeholderText="Endtdatum"
-          id="Enddatum"
-          name="Enddatum"
-          className="input input-bordered input-primary w-full max-w-xs"
-          onSelect={() => setEndSelected((prev) => !prev)}
-          selected={endDate}
-          //dateFormat={"dd.MM.yyyy"}
-          onChange={(date) => setEndDate(date)}
-        /> */}
 
         <select
           className="select select-primary w-full max-w-xs"

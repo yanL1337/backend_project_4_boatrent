@@ -48,16 +48,34 @@ export const addResv = async (req, res) => {
 };
 
 export const getAviableBoote = async (req, res) => {
-  console.log(new Date(req.body.start));
-  const Boote = await Boot.find({
-    Reservierung: {
-      $not: {
-        $elemMatch: {
-          Startdatum: { $lte: new Date(req.body.start) },
-          Enddatum: { $gte: new Date(req.body.end) },
+  try {
+    const startDatum = new Date(req.body.start);
+    const endDatum = new Date(req.body.end);
+
+    const Boote = await Boot.find({
+      Reservierung: {
+        $not: {
+          $elemMatch: {
+            $or: [
+              {
+                Startdatum: { $lte: endDatum },
+                Enddatum: { $gte: startDatum },
+              },
+              {
+                Startdatum: { $gte: startDatum, $lte: endDatum },
+              },
+              {
+                Enddatum: { $gte: startDatum, $lte: endDatum },
+              },
+            ],
+          },
         },
       },
-    },
-  });
-  res.json(Boote).end();
+    });
+
+    res.json(Boote).end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Serverfehler");
+  }
 };

@@ -6,6 +6,7 @@ import { createContext, useEffect, useState } from "react";
 import Reservierungen from "../pages/Reservierungen";
 import ReservierungAdd from "../pages/ReservierungAdd";
 import Aside from "./Aside";
+import DetailPage from "../pages/Detailpage";
 
 const Handler = () => {
   const [boote, setBoote] = useState([]);
@@ -40,7 +41,10 @@ const Handler = () => {
       <BrowserRouter>
         <Aside />
         <Routes>
-          <Route path="/" element={<Landing boote={boote} />} />
+          <Route
+            path="/"
+            element={<Landing boote={boote} resv={reservierungen} />}
+          />
           <Route path="/Boote" element={<Boote boote={boote} />} />
           <Route path="/Boote/Add" element={<BooteAdd />} />
           <Route
@@ -51,6 +55,7 @@ const Handler = () => {
             path="/Reservierung/Add"
             element={<ReservierungAdd boote={boote} />}
           />
+          <Route path="/boot/:id" element={<DetailPage boote={boote} />} />
         </Routes>
       </BrowserRouter>
     </RefreshContext.Provider>

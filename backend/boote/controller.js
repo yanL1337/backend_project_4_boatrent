@@ -15,7 +15,7 @@ export const addBoot = async (req, res) => {
   await fs.writeFile(path, req.file.buffer);
 
   const boot = new Boot(req.body);
-  boot.imgLink = "http://localhost:1337/" + path;
+  boot.imgLink = "https://boat-rent.onrender.com/" + path;
   try {
     await boot.save();
     res.status(201).end();
@@ -34,9 +34,9 @@ export const delBoot = async (req, res) => {
 };
 
 export const addResv = async (req, res) => {
-  const data = await fetch("http://localhost:1337/api/reservierung/get").then(
-    (res) => res.json()
-  );
+  const data = await fetch(
+    "https://boat-rent.onrender.com/api/reservierung/get"
+  ).then((res) => res.json());
 
   const reservierung = data.filter((resv) => resv.Boot == req.body.Boot);
 

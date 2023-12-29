@@ -41,9 +41,41 @@ const BooteAdd = () => {
           name="Baujahr"
           placeholder="Baujahr.."
         />
-        {/* Weitere Eingabefelder folgen... */}
-        {/* ... */}
-        {/* 'Submit'-Button zum Absenden des Formulars */}
+        <input
+          className="input input-bordered input-primary w-full max-w-xs"
+          type="number"
+          id="Seriennummer"
+          name="Seriennummer"
+          placeholder="Seriennummer..."
+        />
+        <select
+          name="Material"
+          className="select select-primary w-full max-w-xs"
+          id="Material"
+        >
+          <option value="Seelen">Seelen</option>
+          <option value="GFK">GFK</option>
+          <option value="Holz">Holz</option>
+          <option value="Metall">Metall</option>
+          <option value="Pappe">Pappe</option>
+        </select>
+        <select
+          className="select select-primary w-full max-w-xs"
+          name="Bootsart"
+          id="Bootsart"
+        >
+          <option value="Tretboot">Tretboot</option>
+          <option value="Segelboot">Segelboot</option>
+          <option value="Luftkissenboot">Luftkissenboot</option>
+          <option value="Geisterschiff">Geisterschiff</option>
+          <option value="Containerschiff">Containerschiff</option>
+        </select>
+        <input
+          className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+          type="file"
+          id="imgLink"
+          name="imgLink"
+        />
         <input className="btn" type="submit" value="Erstellen" />
       </form>
     </div>

@@ -29,6 +29,9 @@ const ListItem = ({ item, format }) => {
       <p>Enddatum: {new Date(item.Enddatum).toLocaleDateString()}</p>
       {/* ID des zugehörigen Boots wird angezeigt. */}
       <p>Boot: {item.Boot}</p>
+      <Link to={`/reservierung/${item._id}`} className="btn bordered">
+        Details
+      </Link>
     </article>
   );
 };

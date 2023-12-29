@@ -71,7 +71,14 @@ const Handler = () => {
             path="/Reservierung/Add"
             element={<ReservierungAdd boote={boote} />}
           />
-          <Route path="/boot/:id" element={<DetailPage boote={boote} />} />
+          <Route
+            path="/boot/:id"
+            element={<DetailPage boote={boote} format="Boot" />}
+          />
+          <Route
+            path="/reservierung/:id"
+            element={<DetailPage resv={reservierungen} boote={boote} />}
+          />
         </Routes>
       </BrowserRouter>
     </RefreshContext.Provider>

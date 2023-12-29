@@ -1,4 +1,3 @@
-// Importieren notwendiger Bibliotheken und Komponenten
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
 import Landing from "../pages/Landing";

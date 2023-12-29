@@ -1,24 +1,30 @@
+// Importiert CSS für den Datepicker und nötige React-Hooks
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useContext, useEffect, useRef } from "react";
 import { RefreshContext } from "../components/Handler";
 
+// ReservierungAdd-Komponente, die 'boote' als Prop annimmt
 const ReservierungAdd = ({ boote }) => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  // State-Hooks für die Start- und Enddaten sowie für die Auswahlstatus
   const [startSelected, setStartSelected] = useState(false);
   const [endSelected, setEndSelected] = useState(false);
+  // State für verfügbare Boote, initial leer
   const [aviableBoote, setAviableBoote] = useState([]);
 
+  // Ref-Hooks für Start- und Enddatum-Inputfelder
   const startRef = useRef();
   const endRef = useRef();
 
+  // useContext-Hook, um den Refresh-Kontext zu nutzen
   const refresh = useContext(RefreshContext);
 
+  // Funktion zur Hinzufügung einer Reservierung, ausgelöst beim Formular-Submit
   const addResv = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Verhindert die Standard-Formular-Übermittlung
 
     const form = new FormData(event.target);
 
+    // Sendet die Daten zum Backend für Reservierungs- und Bootserstellung
     await fetch(import.meta.env.VITE_BACKENDURL + "/reservierung/add", {
       method: "POST",
       body: form,
@@ -29,10 +35,11 @@ const ReservierungAdd = ({ boote }) => {
       body: form,
     });
 
+    // Aktualisiert die Ansicht, indem der Refresh-Kontext geändert wird
     refresh((prev) => !prev);
-    //console.log(obj);
   };
 
+  // Funktion, die verfügbare Boote vom Server abruft
   const getAviableBoot = async () => {
     return await fetch(import.meta.env.VITE_BACKENDURL + "/boot/getAviable", {
       method: "POST",
@@ -46,15 +53,18 @@ const ReservierungAdd = ({ boote }) => {
     }).then((res) => res.json());
   };
 
+  // useEffect-Hook, der getAviableBoot aufruft, wenn beide Daten ausgewählt wurden
   useEffect(() => {
     if (startSelected && endSelected) {
       getAviableBoot().then((data) => setAviableBoote(data));
     }
   }, [endSelected]);
 
+  // Render-Funktion des Formulars zur Erstellung einer Reservierung
   return (
     <div className="flex w-fit m-auto border rounded-xl p-10">
       <form className="flex flex-col items-center" onSubmit={addResv}>
+        {/* Input-Felder für Start- und Enddatum mit onChange-Handlern */}
         <input
           type="date"
           className="input border"
@@ -62,7 +72,6 @@ const ReservierungAdd = ({ boote }) => {
           id="Startdatum"
           ref={startRef}
           onChange={() => setStartSelected((prev) => !prev)}
-          //onChange={(date) => setStartDate(date)}
         />
 
         <p>Bis</p>
@@ -74,9 +83,9 @@ const ReservierungAdd = ({ boote }) => {
           id="Enddatum"
           ref={endRef}
           onChange={() => setEndSelected((prev) => !prev)}
-          //onChange={(date) => setStartDate(date)}
         />
 
+        {/* Dropdown-Menü für die Auswahl eines Boots, deaktiviert, wenn Daten nicht gewählt sind */}
         <select
           className="select select-primary w-full max-w-xs"
           name="Boot"
@@ -88,6 +97,7 @@ const ReservierungAdd = ({ boote }) => {
           <option value="">
             {endSelected ? "Boot wählen" : "Zuerst Datum auswählen"}
           </option>
+          {/* Mapping über verfügbare Boote für die Dropdown-Optionen */}
           {aviableBoote.map((elt, index) => {
             return (
               <option key={index} value={elt._id}>
@@ -97,6 +107,7 @@ const ReservierungAdd = ({ boote }) => {
           })}
         </select>
 
+        {/* Submit-Button für das Formular */}
         <input className="btn" type="submit" value="Erstellen" />
       </form>
     </div>
